@@ -3,6 +3,7 @@ pragma solidity ^0.8.4;
 contract Purchase {
     uint public value;
     uint public confirmPurchaseTimestamp;
+    uint public expectedPurchaseTimestamp;
     address payable public seller;
     address payable public buyer;
 
@@ -45,13 +46,14 @@ contract Purchase {
     }
 
     modifier onlyBuyerOrWithinTime() {
-        uint expectedTimestamp = block.timestamp + 1 minutes;
-        if (msg.sender != buyer) {
-            if (!(expectedTimestamp >= confirmPurchaseTimestamp))
+        if (block.timestamp >= expectedPurchaseTimestamp) {
+            _;
+        } else {
+            if (msg.sender != buyer) {
                 revert InvalidBuyerOrNotWithinTime();
+            } 
             _;
         }
-        _;
     }
 
     event Aborted();
@@ -67,6 +69,15 @@ contract Purchase {
         value = msg.value / 2;
         if ((2 * value) != msg.value)
             revert ValueNotEven();
+    }
+
+    /// A view function for getting the current timestamp
+    function getCurrentTimestamp()
+        external
+        view
+        returns (uint) 
+    {
+        return block.timestamp;
     }
 
     /// Abort the purchase and reclaim the ether.
@@ -100,6 +111,7 @@ contract Purchase {
         buyer = payable(msg.sender);
         state = State.Locked;
         confirmPurchaseTimestamp = block.timestamp;
+        expectedPurchaseTimestamp = confirmPurchaseTimestamp + 5 minutes;
     }
 
     /// Confirm that you (the buyer) received the item.
@@ -140,8 +152,9 @@ contract Purchase {
     /// funds to both seller and buyer.
     function completePurchase()
         external
+        payable
+        onlyBuyerOrWithinTime
         inState(State.Locked)
-        onlyBuyerOrWithinTime()
     {
         emit ItemReceived();
         emit SellerRefunded();
