@@ -1,6 +1,6 @@
 # zku-assignment
 
-## Question 8
+## Question 6
 
 ### Contract on IPFS
 Published Purchase's Metadata and Sources on IPFS
