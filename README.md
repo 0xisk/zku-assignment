@@ -23,3 +23,9 @@ dweb:/ipfs/QmS77UnwKrXqQV5i6JGajEgXJYeWKm28zhh3kEEkWsxH19
 6. Contract seller failed transaction: https://rinkeby.etherscan.io/tx/0xe083bec23bb8b2e9119b06eb28912e6a731ea2f62fd65b9b18d5a227d76abaf0
 7. Contract seller successful transaction: https://rinkeby.etherscan.io/tx/0x0a732d594c02de988486ab9d8bc13ffb9d1e6e99cb39e06597be73055f78d05a
 
+
+## Question 8
+
+- [Commented code](Question_8/main.circom)
+- [Screenshot 1](Question_8/Screenshots/pic-full-220617-1229-34.png)
+- [Screenshot 2](Question_8/Screenshots/pic-full-220617-1229-44.png)
